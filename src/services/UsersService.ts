@@ -8,12 +8,11 @@ class UsersService {
 
     private usersRepository: Repository<User>
 
-    constructor(){
+    constructor() {
         this.usersRepository = getCustomRepository(UsersRepository);
     }
     async create(email: string) {
-
-        const userExists = await this.usersRepository.findOne({ email })
+        const userExists = await this.fyndByEmail(email)
         if (userExists) {
             return userExists;
         }
@@ -23,6 +22,10 @@ class UsersService {
         await this.usersRepository.save(user);
 
         return user;
+    };
+
+    async fyndByEmail(email: string) {
+        return await this.usersRepository.findOne({ email });
     };
 }
 
